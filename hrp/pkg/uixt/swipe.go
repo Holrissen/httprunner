@@ -143,17 +143,17 @@ func (dExt *DriverExt) swipeToTapTexts(texts []string, options ...ActionOption) 
 		screenResult, err := d.GetScreenResult(
 			WithScreenShotOCR(true),
 			WithScreenShotUpload(true),
-			WithScreenShotClosePopups(true),
 		)
 		if err != nil {
 			return err
 		}
-		points, err := screenResult.Texts.FindTexts(texts, dExt.ParseActionOptions(optionsWithoutIdentifier...)...)
+		points, err := screenResult.Texts.FindTexts(texts,
+			dExt.ParseActionOptions(optionsWithoutIdentifier...)...)
 		if err != nil {
-			log.Error().Err(err).Msg("swipeToTapTexts failed")
+			log.Error().Err(err).Strs("texts", texts).Msg("find texts failed")
 			// target texts not found, try to auto handle popup
-			if e := dExt.tapPopupHandler(screenResult.Popup); e != nil {
-				log.Error().Err(e).Msg("auto handle popup failed")
+			if e := dExt.ClosePopupsHandler(); e != nil {
+				log.Error().Err(e).Msg("run popup handler failed")
 			}
 			return err
 		}
@@ -192,7 +192,7 @@ func (dExt *DriverExt) swipeToTapApp(appName string, options ...ActionOption) er
 	}
 	// tap app icon above the text
 	if len(actionOptions.Offset) == 0 {
-		options = append(options, WithOffset(0, -25))
+		options = append(options, WithTapOffset(0, -25))
 	}
 	// set default swipe interval to 1 second
 	if builtin.IsZeroFloat64(actionOptions.Interval) {

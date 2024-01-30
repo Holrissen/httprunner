@@ -1,6 +1,18 @@
 # Release History
 
-## v4.3.6 (2023-08-24)
+## v4.3.8 (2024-01-18)
+
+- feat: add Shell step type
+
+## v4.3.7 (2023-09-19)
+
+**go version**
+
+- feat: add `WithSwipeOffset` to set offset for swipe start/end point
+- feat: set random offset for tap/swipe points with `WithOffsetRandomRange`
+- change: set `WithOffset` deprecated, replace with `WithTapOffset`
+
+## v4.3.6 (2023-09-07)
 
 **go version**
 
@@ -27,6 +39,7 @@ UI related:
 - fix: reuse the same request body during `GetImage` retry
 - fix: iOS `tap_xy` scale adaption error
 - feat: support new action: `close_popups`
+- fix: swipeToTapTexts with identifiers/regex
 
 others:
 
